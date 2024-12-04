@@ -12,18 +12,23 @@ import { HttpClient } from '@angular/common/http';
   styleUrl: './customer.component.css'
 })
 export class CustomerComponent {
+  id: any;
   customer: any = {
     id: '',
     name: '',
     city: '',
     contact: ''
   };
-  constructor(private http:HttpClient) { }
+  customerlist: any = [];
+  constructor(private http:HttpClient) {
+    this.getAllCustomer();
+   }
     addCustomer(){
       console.log(this.customer);
       this.http.post('http://localhost:8080/customer/add',this.customer).subscribe(data=>{
           alert("Customer Added Successfully");
           this.clear();
+          this.getAllCustomer();
       });
       
     }
@@ -34,7 +39,7 @@ export class CustomerComponent {
       this.customer.contact = '';
     }
     searchCustomer(){
-      this.http.get(`http://localhost:8080/customer/search/${this.customer.id}`).subscribe(data=>{
+      this.http.get(`http://localhost:8080/customer/search/${this.id}`).subscribe(data=>{
         this.customer = data;
       });
     }
@@ -43,12 +48,19 @@ export class CustomerComponent {
       this.http.put('http://localhost:8080/customer/update',this.customer).subscribe(data=>{
         alert("Customer Updated Successfully");
         this.clear();
+        this.getAllCustomer();
       });
     }
     deleteCustomer(){
       this.http.delete(`http://localhost:8080/customer/delete/${this.customer.id}`).subscribe(data=>{
         alert("Customer Deleted Successfully");
         this.clear();
+        this.getAllCustomer();
+      });
+    }
+    getAllCustomer(){
+      this.http.get('http://localhost:8080/customer/get-all').subscribe(data=>{
+        this.customerlist = data;
       });
     }
 }
