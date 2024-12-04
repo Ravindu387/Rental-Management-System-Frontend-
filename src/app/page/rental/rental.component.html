@@ -1,0 +1,104 @@
+<app-nav-bar></app-nav-bar>
+<h1 class="text-3xl font-bold underline bg-slate-400 text-white text-center p-4 bg-slate-600 mb-5">Rental</h1>
+
+<form class="max-w-md mx-auto">   
+    <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only text-white">Search</label>
+    <div class="flex">
+        <input type="text" id="default-search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search rental"  name="id">
+    </div>
+</form>
+
+<form class="container mb-5 mt-5 gap-5 ">
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Rental ID</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" [(ngModel)]="rental.id" name="id">
+      </div>
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Customer Name</label>
+      <select name="id" id="" class="form-select" [(ngModel)]="rental.cusName">
+        <option *ngFor="let customer of customerlist" value="{{customer.name}}">{{customer.name}}</option>
+      </select>
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Item Name</label>
+        <select name="id" id="" class="form-select" [(ngModel)]="rental.itemName">
+          <option *ngFor="let item of itemlist" value="{{item.name}}">{{item.name}}</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Rental Date</label>
+        <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"  name="contact" [(ngModel)]="rental.rentalDate">
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Due Date</label>
+        <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"  name="contact" [(ngModel)]="rental.dueDate">
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Return Date</label>
+        <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"  name="contact" [(ngModel)]="rental.returnDate">
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Total Item Cost</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"  name="contact" [(ngModel)]="rental.totalCost">
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Quntity</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"  name="contact" [(ngModel)]="rental.quantity">
+      </div>
+  </form>
+
+  <div class="flex justify-center mb-5 gap-5 container ">
+    <button type="button" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 " (click)="addRental()">Add Rental</button>
+    <button type="button" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 " (click)="updateRental()">Update Rental</button>
+    <button type="button" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 " (click)="deleteRental()">Delete Rental</button>
+    <button type="button" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 " (click)="searchRental()">Search Rental</button>
+    <button type="button" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 " >Clear</button>
+</div>
+
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg m-5">
+  <table class="w-full text-sm text-left rtl:text-right text-gray-700">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+          <tr>
+            <th scope="col" class="px-6 py-3">
+                Count
+            </th>
+              <th scope="col" class="px-6 py-3">
+                  Rental ID
+              </th>
+              <th scope="col" class="px-6 py-3">
+                  Customer ID
+              </th>
+              <th scope="col" class="px-6 py-3">
+                  Item ID
+              </th>
+              <th scope="col" class="px-6 py-3">
+                  Rental Date
+              </th>
+              <th scope="col" class="px-6 py-3">
+                  Return Date
+              </th>
+              <th scope="col" class="px-6 py-3">
+                  Due Date
+            </th>
+            <th scope="col" class="px-6 py-3">
+                Total Cost
+          </th>
+          <th scope="col" class="px-6 py-3">
+              Quntity
+        </th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr class="bg-white border-b" *ngFor="let rental of rentalList; index as i">
+            <td class="px-6 py-4">{{i+1}}</td>
+            <td class="px-6 py-4">{{rental.id}}</td>
+            <td class="px-6 py-4">{{rental.cusName}}</td>
+            <td class="px-6 py-4">{{rental.itemName}}</td>
+            <td class="px-6 py-4">{{rental.rentalDate}}</td>
+            <td class="px-6 py-4">{{rental.dueDate}}</td>
+            <td class="px-6 py-4">{{rental.returnDate}}</td>
+            <td class="px-6 py-4">{{rental.totalCost}}</td>
+            <td class="px-6 py-4">{{rental.quantity}}</td>
+          </tr>
+  </table>
+</div>
